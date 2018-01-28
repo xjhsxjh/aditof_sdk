@@ -609,8 +609,12 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
         if (m_implData->frameDetails.type == "depth_only") {
             memcpy(buffer, pdata[0], buf[0].bytesused);
         } else if (m_implData->frameDetails.type == "ir_only") {
+<<<<<<< HEAD
 #ifdef CHICONY //TODO-VL
-            memcpy(buffer + (width * height) / 2, pdata[0], buf[0].bytesused);
+=======
+>>>>>>> ee8f02d... update cmake and remove toybrick implementation
+                memcpy(buffer + (width * height) / 2, pdata[0],
+                       buf[0].bytesused);
             // Not Packed and type == "depth_ir"
         } else {
             uint16_t *ptr_depth = (uint16_t *)pdata[0];
@@ -628,11 +632,14 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 #else memcpy(buffer + (width * height) / 2, pdata, buf.bytesused);
 =======
         == == == = * / memcpy(buffer + (width * height) / 2, pdata[0],
                               buf[0].bytesused);
 >>>>>>> 095db96... merge toybrick branch
+=======
+>>>>>>> ee8f02d... update cmake and remove toybrick implementation
     } else {
         uint32_t j = 0, j1 = width * height / 2;
         for (uint32_t i = 0; i < height; i += 2) {
