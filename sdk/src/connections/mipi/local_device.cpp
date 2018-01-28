@@ -627,26 +627,31 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
                 ptr_buff_ir[k + 1] = (*(ptr_ir + k + 1) >> 4);
             }
         }
-#else
-            memcpy(buffer + (width * height) / 2, pdata, buf.bytesused);
-        } else {
-            uint32_t j = 0, j1 = width * height / 2;
-            for (uint32_t i = 0; i < height; i += 2) {
-                memcpy(buffer + j, pdata + i * width * 2, width * 2);
-                j += width;
-                memcpy(buffer + j1, pdata + (i + 1) * width * 2, width * 2);
-                j1 += width;
-            }
-            for (uint32_t i = 0; i < width * height; i += 2) {
-                buffer[i] =
-                    ((buffer[i] & 0x00FF) << 4) | ((buffer[i]) & 0xF000) >> 12;
-                buffer[i + 1] = ((buffer[i + 1] & 0x00FF) << 4) |
-                                ((buffer[i + 1]) & 0xF000) >> 12;
-            }
-        }
-#endif
+<<<<<<< HEAD
+#else memcpy(buffer + (width * height) / 2, pdata, buf.bytesused);
+=======
+        == == == = * / memcpy(buffer + (width * height) / 2, pdata[0],
+                              buf[0].bytesused);
+>>>>>>> 095db96... merge toybrick branch
     } else {
-        // clang-format off
+        uint32_t j = 0, j1 = width * height / 2;
+        for (uint32_t i = 0; i < height; i += 2) {
+            memcpy(buffer + j, pdata + i * width * 2, width * 2);
+            j += width;
+            memcpy(buffer + j1, pdata + (i + 1) * width * 2, width * 2);
+            j1 += width;
+        }
+        for (uint32_t i = 0; i < width * height; i += 2) {
+            buffer[i] =
+                ((buffer[i] & 0x00FF) << 4) | ((buffer[i]) & 0xF000) >> 12;
+            buffer[i + 1] = ((buffer[i + 1] & 0x00FF) << 4) |
+                            ((buffer[i + 1]) & 0xF000) >> 12;
+        }
+    }
+#endif
+}
+else {
+    // clang-format off
         uint16_t *depthPtr = buffer;
         uint16_t *irPtr = buffer + (width * height) / 2;
         unsigned int j = 0;
@@ -707,18 +712,18 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
             j += 16;
             pdata[0] += 24;
         }
-        // clang-format on
-    }
+    // clang-format on
+}
 
-    for (unsigned int i = 0; i < NUM_VIDEO_DEVS; i++) {
-        dev = &m_implData->videoDevs[i];
-        status = enqueueInternalBuffer(buf[i], dev);
-        if (status != Status::OK) {
-            return status;
-        }
+for (unsigned int i = 0; i < NUM_VIDEO_DEVS; i++) {
+    dev = &m_implData->videoDevs[i];
+    status = enqueueInternalBuffer(buf[i], dev);
+    if (status != Status::OK) {
+        return status;
     }
+}
 
-    return status;
+return status;
 }
 
 aditof::Status LocalDevice::readAfeRegisters(const uint16_t *address,
@@ -812,8 +817,7 @@ aditof::Status LocalDevice::readAfeTemp(float &temperature) {
         temp_sensor_close(&tdev);
     } else if ((m_deviceDetails.sensorType ==
                 aditof::SensorType::SENSOR_CHICONY) ||
-			   (m_deviceDetails.sensorType ==
-                aditof::SensorType::SENSOR_FX1)) {
+               (m_deviceDetails.sensorType == aditof::SensorType::SENSOR_FX1)) {
         int fd = ::open(TEMP_SENSOR_DEV_PATH, O_RDONLY);
         if (fd <= 0) {
             LOG(WARNING) << "Temp sensor open error";
@@ -849,8 +853,7 @@ aditof::Status LocalDevice::readLaserTemp(float &temperature) {
         temp_sensor_close(&tdev);
     } else if ((m_deviceDetails.sensorType ==
                 aditof::SensorType::SENSOR_CHICONY) ||
-               (m_deviceDetails.sensorType ==
-                aditof::SensorType::SENSOR_FX1)) {
+               (m_deviceDetails.sensorType == aditof::SensorType::SENSOR_FX1)) {
         int fd = ::open(TEMP_SENSOR_DEV_PATH, O_RDONLY);
         if (fd <= 0) {
             LOG(WARNING) << "Temp sensor open error";
