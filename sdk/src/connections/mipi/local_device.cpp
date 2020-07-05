@@ -395,6 +395,7 @@ aditof::Status LocalDevice::setFrameType(const aditof::FrameDetails &details) {
         /* Set the frame format in the driver */
         CLEAR(fmt);
         fmt.type = dev->videoBuffersType;
+        fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SBGGR12;
         fmt.fmt.pix.width = details.width;
         fmt.fmt.pix.height = details.height;
 
@@ -609,19 +610,19 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
             memcpy(buffer + (width * height) / 2, pdata[0], buf[0].bytesused);
             // Not Packed and type == "depth_ir"
         } else {
-            uint16_t* ptr_depth = (uint16_t*)pdata[0];
-            uint16_t* ptr_ir = (uint16_t*)pdata[1];
-            uint16_t* ptr_buff_depth = buffer;
-            uint16_t* ptr_buff_ir = buffer + (width * height);
+            uint16_t *ptr_depth = (uint16_t *)pdata[0];
+            uint16_t *ptr_ir = (uint16_t *)pdata[1];
+            uint16_t *ptr_buff_depth = buffer;
+            uint16_t *ptr_buff_ir = buffer + (width * height);
             //discard 4 LSB of depth (due to Nvidia RAW memory storage type)
-            for (unsigned int k = 0; k < buf[0].bytesused / 2; k+=2) {
-		ptr_buff_depth[k] = (*(ptr_depth + k) >> 4);
-		ptr_buff_depth[k + 1] = (*(ptr_depth + k + 1) >> 4);
-	    }
-	    for (unsigned int k = 0; k < buf[0].bytesused / 2; k+=2) {
-		ptr_buff_ir[k] = (*(ptr_ir + k) >> 4);
-		ptr_buff_ir[k + 1] = (*(ptr_ir + k + 1) >> 4);
-	    }
+            for (unsigned int k = 0; k < buf[0].bytesused / 2; k += 2) {
+                ptr_buff_depth[k] = (*(ptr_depth + k) >> 4);
+                ptr_buff_depth[k + 1] = (*(ptr_depth + k + 1) >> 4);
+            }
+            for (unsigned int k = 0; k < buf[0].bytesused / 2; k += 2) {
+                ptr_buff_ir[k] = (*(ptr_ir + k) >> 4);
+                ptr_buff_ir[k + 1] = (*(ptr_ir + k + 1) >> 4);
+            }
         }
     } else {
         // clang-format off
