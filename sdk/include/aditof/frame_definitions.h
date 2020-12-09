@@ -50,6 +50,15 @@ enum class FrameDataType {
 };
 
 /**
+ * @enum DataPackageType
+ * @brief Types of data packaging inside a frame
+ */
+enum class DataPackageType {
+    SINGLE_FRAME, //!< Contains only one actual frame: Depth or IR
+    DOUBLE_FRAME, //!< Contains 2 frames: Depth and IR
+};
+
+/**
  * @struct FrameDetails
  * @brief Describes the properties of a frame.
  */
@@ -63,6 +72,16 @@ struct FrameDetails {
      * @brief The height of the frame.
      */
     unsigned int height;
+
+    /**
+     * @brief The height of the actual frame (may contain Depth and IR data).
+     */
+    unsigned int fullHeight;
+
+    /**
+     * @brief The packaging type used for the frame.
+     */
+    DataPackageType dataPackageType;
 
     /**
      * @brief The type of the frame. Can be one of the types provided by the

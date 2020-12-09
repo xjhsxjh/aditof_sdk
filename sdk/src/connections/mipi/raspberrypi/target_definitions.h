@@ -32,6 +32,8 @@
 #ifndef TARGET_DEFINITIONS_H
 #define TARGET_DEFINITIONS_H
 
+#include "frame_definitions.h"
+
 static const char *EEPROM_NAME = "24c1024";
 
 #ifdef REVB
@@ -48,5 +50,9 @@ static const char *EEPROM_DEV_PATH = "/sys/bus/i2c/devices/0-0056/eeprom";
 static const char *CAPTURE_DEVICE_NAME = "unicam";
 
 static const int NUM_VIDEO_DEVS = 1;
+
+static constexpr aditof::DataPackageType DATA_PACKAGE_TYPE =
+    (NUM_VIDEO_DEVS == 2) ? aditof::DataPackageType::SINGLE_FRAME
+                          : aditof::DataPackageType::DOUBLE_FRAME;
 
 #endif // TARGET_DEFINITIONS_H

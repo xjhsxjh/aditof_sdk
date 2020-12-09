@@ -32,6 +32,8 @@
 #ifndef TARGET_DEFINITIONS_H
 #define TARGET_DEFINITIONS_H
 
+#include "frame_definitions.h"
+
 static const char *EEPROM_NAME = "24c1024";
 
 static const char *TEMP_SENSOR_DEV_PATH = "/dev/i2c-6";
@@ -45,5 +47,9 @@ static const char *TEMP_SENSOR_REPLACEMENT_DEV_PATH = "";
 static const char *CAPTURE_DEVICE_NAME = "vi-output, addi9036 6-0064";
 
 static const int NUM_VIDEO_DEVS = 1;
+
+static constexpr aditof::DataPackageType DATA_PACKAGE_TYPE =
+    (NUM_VIDEO_DEVS == 2) ? aditof::DataPackageType::SINGLE_FRAME
+                          : aditof::DataPackageType::DOUBLE_FRAME;
 
 #endif // TARGET_DEFINITIONS_H
