@@ -898,7 +898,7 @@ aditof::Status LocalDevice::waitForBuffer(struct VideoDev *dev = nullptr) {
 
 aditof::Status
 LocalDevice::dequeueInternalBuffer(struct v4l2_buffer &buf,
-                                   struct VideoDev *dev = nullptr) {
+                                   struct VideoDev *dev) {
     using namespace aditof;
     Status status = Status::OK;
 
@@ -934,7 +934,7 @@ LocalDevice::dequeueInternalBuffer(struct v4l2_buffer &buf,
 aditof::Status LocalDevice::getInternalBuffer(uint8_t **buffer,
                                               uint32_t &buf_data_len,
                                               const struct v4l2_buffer &buf,
-                                              struct VideoDev *dev = nullptr) {
+                                              struct VideoDev *dev) {
     if (dev == nullptr)
         struct VideoDev *dev = &m_implData->videoDevs[0];
 
@@ -947,7 +947,7 @@ aditof::Status LocalDevice::getInternalBuffer(uint8_t **buffer,
 
 aditof::Status
 LocalDevice::enqueueInternalBuffer(struct v4l2_buffer &buf,
-                                   struct VideoDev *dev = nullptr) {
+                                   struct VideoDev *dev) {
     if (dev == nullptr)
         struct VideoDev *dev = &m_implData->videoDevs[0];
 
