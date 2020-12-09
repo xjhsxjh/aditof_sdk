@@ -39,6 +39,9 @@
 
 struct v4l2_buffer;
 
+static const unsigned int FRAME_WIDTH = 640;
+static const unsigned int FRAME_HEIGHT = 480;
+
 class LocalDevice : public aditof::DeviceInterface {
   public:
     LocalDevice(const aditof::DeviceConstructionData &data);

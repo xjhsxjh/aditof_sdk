@@ -343,19 +343,28 @@ LocalDevice::getAvailableFrameTypes(std::vector<aditof::FrameDetails> &types) {
 
     FrameDetails details;
 
-    details.width = 640;
-    details.height = 480;
+    details.width = FRAME_WIDTH;
+    details.height = FRAME_HEIGHT;
     details.type = "depth_ir";
+    details.dataPackageType = DATA_PACKAGE_TYPE;
+    details.fullHeight =
+        details.height * ((details.dataPackageType == SINGLE_FRAME) ? 1 : 2);
     types.push_back(details);
 
-    details.width = 640;
-    details.height = 480;
+    details.width = FRAME_WIDTH;
+    details.height = FRAME_HEIGHT;
     details.type = "depth_only";
+    details.dataPackageType = DATA_PACKAGE_TYPE;
+    details.fullHeight =
+        details.height * ((details.dataPackageType == SINGLE_FRAME) ? 1 : 2);
     types.push_back(details);
 
-    details.width = 640;
-    details.height = 480;
+    details.width = FRAME_WIDTH;
+    details.height = FRAME_HEIGHT;
     details.type = "ir_only";
+    details.dataPackageType = DATA_PACKAGE_TYPE;
+    details.fullHeight =
+        details.height * ((details.dataPackageType == SINGLE_FRAME) ? 1 : 2);
     types.push_back(details);
 
     details.width = 668;
