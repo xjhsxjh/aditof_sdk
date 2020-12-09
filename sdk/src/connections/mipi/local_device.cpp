@@ -609,10 +609,10 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
         if (m_implData->frameDetails.type == "depth_only") {
             memcpy(buffer, pdata[0], buf[0].bytesused);
         } else if (m_implData->frameDetails.type == "ir_only") {
-#ifdef TOYBRICK
             memcpy(buffer + (width * height) / 2, pdata[0], buf[0].bytesused);
             // Not Packed and type == "depth_ir"
         } else {
+#ifdef TOYBRICK
             uint16_t *ptr_depth = (uint16_t *)pdata[0];
             uint16_t *ptr_ir = (uint16_t *)pdata[1];
             uint16_t *ptr_buff_depth = buffer;
@@ -626,10 +626,7 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
                 ptr_buff_ir[k] = (*(ptr_ir + k) >> 4);
                 ptr_buff_ir[k + 1] = (*(ptr_ir + k + 1) >> 4);
             }
-        }
 #else
-            memcpy(buffer + (width * height) / 2, pdata[0], buf[0].bytesused);
-        } else {
             uint32_t j = 0, j1 = width * height / 2;
             for (uint32_t i = 0; i < height; i += 2) {
                 memcpy(buffer + j, pdata + i * width * 2, width * 2);
@@ -643,8 +640,8 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
                 buffer[i + 1] = ((buffer[i + 1] & 0x00FF) << 4) |
                                 ((buffer[i + 1]) & 0xF000) >> 12;
             }
-        }
 #endif
+        }
     } else {
         // clang-format off
         uint16_t *depthPtr = buffer;
@@ -896,9 +893,8 @@ aditof::Status LocalDevice::waitForBuffer(struct VideoDev *dev = nullptr) {
     return aditof ::Status::OK;
 }
 
-aditof::Status
-LocalDevice::dequeueInternalBuffer(struct v4l2_buffer &buf,
-                                   struct VideoDev *dev) {
+aditof::Status LocalDevice::dequeueInternalBuffer(struct v4l2_buffer &buf,
+                                                  struct VideoDev *dev) {
     using namespace aditof;
     Status status = Status::OK;
 
@@ -945,9 +941,8 @@ aditof::Status LocalDevice::getInternalBuffer(uint8_t **buffer,
     return aditof::Status::OK;
 }
 
-aditof::Status
-LocalDevice::enqueueInternalBuffer(struct v4l2_buffer &buf,
-                                   struct VideoDev *dev) {
+aditof::Status LocalDevice::enqueueInternalBuffer(struct v4l2_buffer &buf,
+                                                  struct VideoDev *dev) {
     if (dev == nullptr)
         struct VideoDev *dev = &m_implData->videoDevs[0];
 
