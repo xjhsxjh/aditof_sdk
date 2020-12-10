@@ -515,12 +515,22 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
 
     unsigned int width;
     unsigned int height;
+<<<<<<< HEAD
     unsigned int fullDataHeight = m_implData->frameDetails.fullDataHeight;
     unsigned int fullDataWidth = m_implData->frameDetails.fullDataWidth;
+||||||| constructed merge base
+    unsigned int buf_data_len;
+=======
+    unsigned int fullDataWidth;
+    unsigned int fullDataHeight;
+    unsigned int buf_data_len;
+>>>>>>> fix usage of appropriate width and height
     uint8_t *pdata;
 
     width = m_implData->frameDetails.width;
     height = m_implData->frameDetails.height;
+    fullDataWidth = m_implData->frameDetails.fullDataWidth;
+    fullDataHeight = m_implData->frameDetails.fullDataHeight;
 
     status = getInternalBuffer(&pdata, buf_data_len, buf);
     if (status != Status::OK) {
@@ -554,7 +564,7 @@ aditof::Status LocalDevice::getFrame(uint16_t *buffer) {
                         ((((unsigned short)*(pdata + i + 2)) & 0x00F0) >> 4);
             j++;
         }
-    } else if (!isBufferPacked(buf, width, height)) {
+    } else if (!isBufferPacked(buf, fullDataWidth, fullDataHeight)) {
         // TODO: investigate optimizations for this (arm neon / 1024 bytes
         // chunks)
         if (m_implData->frameDetails.type == "depth_only") {
